@@ -1,4 +1,3 @@
-import { resolve } from "node:dns";
 import puppeteer from "puppeteer-extra";
 import StealthPlugin from "puppeteer-extra-plugin-stealth";
 
@@ -18,13 +17,40 @@ const page = await browser.newPage();
 console.log("Иду на ВБ")
 
 await page.goto("https://www.wildberries.ru/", {
-  waitUntil: "networkidle0"
+  waitUntil: "networkidle2"
 });
 
-await page.waitForSelector("")
+await page.waitForSelector('a[data-testid="product-card-link"]')
+console.log("Загрузилась страница ВБ")
 
-await sleep(2000)
-  .then(() => {console.log("Проспал 2 сек")})
+try {
+  await page.waitForSelector('[role="dialog"]');
+  await page.click('button[aria-label="Close"]');
+  console.log("Закрыл диалоговое окно");
+
+  const texts = await page.$$eval("button, div, span, a", elements =>
+  elements
+    .map(el => el.innerText?.trim())
+    .filter(Boolean)
+    .filter(text => text.includes("Окей"))
+);
+
+console.log(texts);
+  
+  await page
+    .locator("button")
+    .filter(button => button.textContent.includes("Окей"))
+    .click();
+
+
+  console.log("Закрыл куки окно");
+
+} catch (error) {
+  console.log("Ошибка: ", error)
+}
+
+await sleep(5000)
+console.log("Проспал 5 сек")
 
 
 await browser.close()
