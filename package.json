@@ -1,12 +1,12 @@
 {
   "dependencies": {
-    "puppeteer": "^24.43.1"
+    "puppeteer": "^24.43.1",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
   },
   "name": "manualaccountwb",
   "version": "1.0.0",
   "description": "Проект для работы с мануалом на ВБ",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

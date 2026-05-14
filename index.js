@@ -1,5 +1,5 @@
 import { resolve } from "node:dns";
-import puppeteer from "puppeteer";
+import puppeteer from "puppeteer--extra";
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
