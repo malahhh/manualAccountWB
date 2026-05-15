@@ -27,23 +27,14 @@ try {
   await page.waitForSelector('[role="dialog"]');
   await page.click('button[aria-label="Close"]');
   console.log("Закрыл диалоговое окно");
-
-  const texts = await page.$$eval("button, div, span, a", elements =>
-  elements
-    .map(el => el.innerText?.trim())
-    .filter(Boolean)
-    .filter(text => text.includes("Окей"))
-);
-
-console.log(texts);
   
-  await page
-    .locator("button")
-    .filter(button => button.textContent.includes("Окей"))
-    .click();
-
-
-  console.log("Закрыл куки окно");
+  let cookieTextExist = await page.$('::-p-text(Окей)');
+  if (cookieTextExist){
+    console.log("Есть кнопка куки, жму ее");
+    await page.click('::-p-text(Окей)')
+  }else{
+    console.log("Кнпоки куки нет")
+  }
 
 } catch (error) {
   console.log("Ошибка: ", error)
