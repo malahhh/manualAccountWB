@@ -79,5 +79,25 @@ fs.writeFileSync("tokenacc.txt", tokenacc)
 await sleep(5000)
 console.log("Проспал 2 сек")
 
+console.log("Собираю хедерс для следующих запросов");
+page.on('request', request =>{
+  const url = request.url();
+  
+  if (url.includes("goods")){
+    console.log("Поймал запрос:", url);
+    console.log("Метод:", request.method());
+    console.log("headers:", request.headers());
+  }
+})
+
+await page.goto("https://www.wildberries.ru/lk/basket",  {
+  waitUntil: "networkidle2"
+})
+try {
+  await page.waitForSelector("text/В корзине пока пусто");
+  console.log("В корзине пусто")
+} catch (error) {
+  
+}
 await browser.close()
 console.log("Закрыл браузер")

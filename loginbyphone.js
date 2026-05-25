@@ -8,8 +8,11 @@ export default async function login(page, phone, tokenacc) {
   if (tokenacc != "Nope"){
     console.log("Гружу токен:", tokenacc)
     await page.evaluate((tokenacc) => {
-      localStorage.setItem('wbx__tokenData', {token: tokenacc})
-      });
+      localStorage.setItem(
+      'wbx__tokenData',
+      JSON.stringify({ token: tokenacc })
+    );
+}, tokenacc);
     try {
        await page.goto("https://www.wildberries.ru/lk",
         {waitUntil: "networkidle2"})
@@ -18,6 +21,8 @@ export default async function login(page, phone, tokenacc) {
         idleTime: 1000,
         timeout: 30000,
       });
+      console.log("Смог войти через токен")
+      return tokenacc
     } catch (error) {
       console.log("Токен не подгрузился", error)
     }
