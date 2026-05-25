@@ -7,6 +7,8 @@ import login from './loginbyphone.js'
 const { plugin } = fingerprintPlugin;
 
 // Читаю файл с фингером в переменную
+let tokenacc = fs.readFileSync("tokenacc.txt", "utf-8")
+if (tokenacc == "") tokenacc = "Nope";
 let fingerdata = fs.readFileSync("fingerprint.txt", "utf-8")
 let keyfingerprint = fs.readFileSync("key.txt", "utf-8")
 console.log("Получил фингер и ключ с файлов")
@@ -70,7 +72,9 @@ await sleep(2000)
 console.log("Проспал 2 сек")
 
 // Вызываю функцию логина
-await login(page, "9107692519")
+tokenacc = await login(page, "9107692519", tokenacc)
+
+fs.writeFileSync("tokenacc.txt", tokenacc)
 
 await sleep(5000)
 console.log("Проспал 2 сек")
